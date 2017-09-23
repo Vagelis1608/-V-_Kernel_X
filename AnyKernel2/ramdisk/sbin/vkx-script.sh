@@ -26,6 +26,18 @@ if [ -z $MPDS ]; then
     MPDS=1
 fi
 
+UBZR=`gprop persist.use.big.zram`
+if [ -z $UBZR ]; then
+    echo "persist.use.big.zram=1" >> $PROP
+    UBZR=1
+fi
+
+USF=`gprop persist.using.swap.file`
+if [ -z $USF ]; then
+    echo "persist.using.swap.file=0" >> $PROP
+    UBZR=1
+fi
+
 # Check for Magisk
 if [ -e /dev/magisk ]; then
     SYSTEM=/dev/magisk/mirror/system
@@ -43,10 +55,24 @@ if [ "$MPDS" == "1" ]; then
         $BB rm -f $SYSTEM/bin/mpdecision
         mount -t auto -o ro,remount $SYSTEM
     fi
-elif [ "$MPDS" == "0" -a -e $SYSTEM/bin/mpdecision-dis ]; then
+elif [ -e $SYSTEM/bin/mpdecision-dis ]; then
         mount -t auto -o rw,remount $SYSTEM
         $BB cp -af $SYSTEM/bin/mpdecision-dis $SYSTEM/bin/mpdecision
         $BB rm -f $SYSTEM/bin/mpdecision-dis
         mount -t auto -o ro,remount $SYSTEM      
+fi
+
+# Set ZRAM to 500MB if the prop persist.use.big.zram is set to 1
+if [ "$UBZR" == "1" ]; then
+    # Also set swappiness to '100' if the user doesn't use a swap file (persist.using.swap.file=0)
+    if [ "$USF" == "0" ]; then
+        echo '100' > /proc/sys/vm/swappiness
+    fi
+    $BB swapoff /dev/block/zram0
+    echo '1' > /sys/block/zram0/reset
+    echo '0' > /sys/block/zram0/disksize
+    echo '524288000' > /sys/block/zram0/disksize
+    $BB mkswap /dev/block/zram0
+    $BB swapon /dev/block/zram0
 fi
 
