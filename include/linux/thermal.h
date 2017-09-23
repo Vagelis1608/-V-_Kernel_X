@@ -190,6 +190,7 @@ struct thermal_cooling_device *thermal_cooling_device_register(char *, void *,
 		const struct thermal_cooling_device_ops *);
 void thermal_cooling_device_unregister(struct thermal_cooling_device *);
 
+int sensor_get_temp(uint32_t sensor_id, long *temp);
 int sensor_get_id(char *name);
 int sensor_set_trip(uint32_t sensor_id, struct sensor_threshold *threshold);
 int sensor_cancel_trip(uint32_t sensor_id, struct sensor_threshold *threshold);

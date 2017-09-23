@@ -311,6 +311,20 @@ int sensor_set_trip(uint32_t sensor_id, struct sensor_threshold *threshold)
 }
 EXPORT_SYMBOL(sensor_set_trip);
 
+int sensor_get_temp(uint32_t sensor_id, long *temp)
+{
+	struct sensor_info *sensor = get_sensor(sensor_id);
+	int ret = 0;
+
+	if (!sensor)
+		return -ENODEV;
+
+	ret = sensor->tz->ops->get_temp(sensor->tz, temp);
+
+	return ret;
+}
+EXPORT_SYMBOL(sensor_get_temp);
+
 int sensor_cancel_trip(uint32_t sensor_id, struct sensor_threshold *threshold)
 {
 	struct sensor_threshold *pos, *var;

@@ -34,12 +34,21 @@ struct msm_thermal_data {
 	int32_t vdd_rstr_temp_hyst_degC;
 	int32_t psm_temp_degC;
 	int32_t psm_temp_hyst_degC;
-	int32_t ocr_temp_degC;
-	int32_t ocr_temp_hyst_degC;
+	int32_t phase_rpm_resource_type;
+	int32_t phase_rpm_resource_id;
+	int32_t gfx_phase_warm_temp_degC;
+	int32_t gfx_phase_warm_temp_hyst_degC;
+	int32_t gfx_phase_hot_temp_degC;
+	int32_t gfx_phase_hot_temp_hyst_degC;
+	int32_t gfx_sensor;
+	int32_t gfx_phase_request_key;
+	int32_t cx_phase_hot_temp_degC;
+	int32_t cx_phase_hot_temp_hyst_degC;
+	int32_t cx_phase_request_key;
 	int32_t therm_reset_temp_degC;
 };
 
-#ifdef CONFIG_THERMAL_MONITOR
+#if defined (CONFIG_THERMAL_MONITOR) || defined (CONFIG_INTELLI_THERMAL)
 extern int msm_thermal_init(struct msm_thermal_data *pdata);
 extern int msm_thermal_device_init(void);
 extern int msm_thermal_set_frequency(uint32_t cpu, uint32_t freq,
