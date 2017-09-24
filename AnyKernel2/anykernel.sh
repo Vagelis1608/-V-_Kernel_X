@@ -39,6 +39,11 @@ dump_boot;
 backup_file init.rc
 insert_line init.rc "import /init.vkx.rc" before "import /init.environ.rc" "import /init.vkx.rc"
 
+# Fix init.d
+# By disabling the original service that runs it and running it from init.vkx.rc
+backup_file init.cm.rc
+replace_string init.cm.rc "    # start sysinit" "    start sysinit" "    # start sysinit"
+
 # Remove 'placeholder' file added by mistake in v1.0
 if [ -e placeholder ]; then
     CHK=`cat placeholder`
