@@ -1,5 +1,5 @@
-# Run -V- Kernel X main script file
-# Written for -V- Kernel X by Vagelis1608 @xda-developers
+# Run the modifications from -V- Kernel X
+# Written for -V- Kernel X by Vagelis1608 @ xda-developers
 
 on post-fs-data
     start vkx
