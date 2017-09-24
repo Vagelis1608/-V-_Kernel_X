@@ -44,6 +44,12 @@ if [ -z $UKSM ]; then
     UKSM=1
 fi
 
+UIT=`gprop persist.use.intelli_thermal`
+if [ -z $UIT ]; then
+    echo "persist.use.intelli_thermal=1" >> $PROP
+    UIT=1
+fi
+
 # Check for Magisk
 if [ -e /dev/magisk ]; then
     SYSTEM=/dev/magisk/mirror/system
@@ -85,5 +91,14 @@ fi
 # Activate KSM if the prop persist.use.ksm is set to 1
 if [ "$UKSM" == "1" ]; then
     echo '1' > /sys/kernel/mm/ksm/run
+fi
+
+# Activate Intelli_Thermal if the prop persist.use.intelli_thermal is set to 1
+if [ "$UIT" == "1" ]; then
+    echo '1' > /sys/module/msm_thermal/core_control/enabled
+    echo '75' > /sys/module/msm_thermal/parameters/core_limit_temp_degC
+    echo '65' > /sys/module/msm_thermal/parameters/limit_temp_degC
+    echo '500' > /sys/module/msm_thermal/parameters/poll_ms
+    echo 'Y' > /sys/module/msm_thermal/parameters/enabled
 fi
 
