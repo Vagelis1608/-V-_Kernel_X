@@ -61,19 +61,21 @@ echo ""
 
 echo ""
 echo "dtbTool done"
-echo ""
-echo "Coping files to template..."
-echo ""
 
 # Copy zImage and dt.img to the template (AnyKernel2)
-cp -avf arch/arm/boot/zImage AnyKernel2
-cp -avf arch/arm/boot/dt.img AnyKernel2
-
-echo ""
-echo "Copy done"
+if [ -e AnyKernel2 ]; then
+    TE=1
+    echo ""
+    echo "Coping files to template..."
+    echo ""
+    cp -avf arch/arm/boot/zImage AnyKernel2
+    cp -avf arch/arm/boot/dt.img AnyKernel2
+    echo ""
+    echo "Copy done"
+fi
 
 # Creating zip
-if [ "$NOZIP" != "1" ]; then
+if [ "$NOZIP" != "1" -a "$TE" == "1" ]; then
     echo ""
     echo "Creating zip..."
     cd AnyKernel2
@@ -90,4 +92,7 @@ if [ "$NOZIP" != "1" ]; then
     cp -avf AnyKernel2/UPDATE-V-_Kernel_X_v*.zip zips
     rm -f AnyKernel2/UPDATE-V-_Kernel_X_v*.zip
 fi
+
+echo ""
+echo "All done!"
 
