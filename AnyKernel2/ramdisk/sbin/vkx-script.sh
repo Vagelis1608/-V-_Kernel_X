@@ -40,7 +40,7 @@ fi
 
 UKSM=`gprop persist.use.ksm`
 if [ -z $UKSM ]; then
-    echo "persist.use.ksm=1"
+    echo "persist.use.ksm=1" >> $PROP
     UKSM=1
 fi
 
