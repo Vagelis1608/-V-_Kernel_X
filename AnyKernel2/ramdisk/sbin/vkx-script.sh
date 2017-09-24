@@ -38,6 +38,12 @@ if [ -z $USF ]; then
     UBZR=1
 fi
 
+UKSM=`gprop persist.use.ksm`
+if [ -z $UKSM ]; then
+    echo "persist.use.ksm=1"
+    UKSM=1
+fi
+
 # Check for Magisk
 if [ -e /dev/magisk ]; then
     SYSTEM=/dev/magisk/mirror/system
@@ -56,10 +62,10 @@ if [ "$MPDS" == "1" ]; then
         mount -t auto -o ro,remount $SYSTEM
     fi
 elif [ -e $SYSTEM/bin/mpdecision-dis ]; then
-        mount -t auto -o rw,remount $SYSTEM
-        $BB cp -af $SYSTEM/bin/mpdecision-dis $SYSTEM/bin/mpdecision
-        $BB rm -f $SYSTEM/bin/mpdecision-dis
-        mount -t auto -o ro,remount $SYSTEM      
+    mount -t auto -o rw,remount $SYSTEM
+    $BB cp -af $SYSTEM/bin/mpdecision-dis $SYSTEM/bin/mpdecision
+    $BB rm -f $SYSTEM/bin/mpdecision-dis
+    mount -t auto -o ro,remount $SYSTEM      
 fi
 
 # Set ZRAM to 500MB if the prop persist.use.big.zram is set to 1
@@ -74,5 +80,10 @@ if [ "$UBZR" == "1" ]; then
     echo '524288000' > /sys/block/zram0/disksize
     $BB mkswap /dev/block/zram0
     $BB swapon /dev/block/zram0
+fi
+
+# Activate KSM if the prop persist.use.ksm is set to 1
+if [ "$UKSM" == "1" ]; then
+    echo '1' > /sys/kernel/mm/ksm/run
 fi
 
