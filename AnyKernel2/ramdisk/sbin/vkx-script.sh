@@ -61,6 +61,7 @@ fi
 if [ "$MPDS" == "1" ]; then
     setprop ctl.stop mpdecision
     stop mpdecision
+    echo '1' > /sys/module/intelli_plug/parameters/intelli_plug_active
     if [ -e $SYSTEM/bin/mpdecision ]; then
         mount -t auto -o rw,remount $SYSTEM
         $BB cp -af $SYSTEM/bin/mpdecision $SYSTEM/bin/mpdecision-dis
