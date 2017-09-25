@@ -34,6 +34,8 @@ struct msm_thermal_data {
 	int32_t vdd_rstr_temp_hyst_degC;
 	int32_t psm_temp_degC;
 	int32_t psm_temp_hyst_degC;
+	int32_t ocr_temp_degC;
+	int32_t ocr_temp_hyst_degC;
 	int32_t phase_rpm_resource_type;
 	int32_t phase_rpm_resource_id;
 	int32_t gfx_phase_warm_temp_degC;
