@@ -12,6 +12,12 @@ usage() {
     exit 0
 }
 
+if [ -z "$CROSS_COMPILE" ]; then
+    echo "Note: CROSS_COMPILE must be set manually before executing"
+    echo ""
+    usage
+fi
+
 if [ "$1" == "-c" ]; then
     CLEAN=1
     if [ -n "$2" ]; then
@@ -87,6 +93,7 @@ if [ "$NOZIP" != "1" -a "$TE" == "1" ]; then
         sudo cp -avf UPDATE-V-_Kernel_X_v*.zip /media/sf_Android
         echo ""
         echo "Done"
+        echo ""
     fi
     cd ..
     cp -avf AnyKernel2/UPDATE-V-_Kernel_X_v*.zip zips
