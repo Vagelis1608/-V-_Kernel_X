@@ -38,12 +38,6 @@ if [ -z $USF ]; then
     UBZR=1
 fi
 
-UKSM=`gprop persist.use.ksm`
-if [ -z $UKSM ]; then
-    echo "persist.use.ksm=1" >> $PROP
-    UKSM=1
-fi
-
 UIT=`gprop persist.use.intelli_thermal`
 if [ -z $UIT ]; then
     echo "persist.use.intelli_thermal=1" >> $PROP
@@ -87,11 +81,6 @@ if [ "$UBZR" == "1" ]; then
     echo '524288000' > /sys/block/zram0/disksize
     $BB mkswap /dev/block/zram0
     $BB swapon /dev/block/zram0
-fi
-
-# Activate KSM if the prop persist.use.ksm is set to 1
-if [ "$UKSM" == "1" ]; then
-    echo '1' > /sys/kernel/mm/ksm/run
 fi
 
 # Activate Intelli_Thermal if the prop persist.use.intelli_thermal is set to 1
