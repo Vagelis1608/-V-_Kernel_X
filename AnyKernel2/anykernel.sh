@@ -4,7 +4,7 @@
 ## AnyKernel setup
 # begin properties
 properties() {
-kernel.string=-V- Kernel X v1.2.1 by Vagelis1608 @ xda-developers
+kernel.string=-V- Kernel X v1.3 by Vagelis1608 @ xda-developers
 do.devicecheck=0
 do.modules=0
 do.cleanup=1
@@ -47,7 +47,7 @@ replace_string init.cm.rc "    # start sysinit" "    start sysinit" "    # start
 # Remove 'placeholder' file added by mistake in v1.0
 if [ -e placeholder ]; then
     CHK=`cat placeholder`
-    if [ -z $CHK ]; then
+    if [ -z "$CHK" ]; then
         rm -f placeholder
     fi
 fi
